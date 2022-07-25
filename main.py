@@ -39,7 +39,7 @@ class GoogleMapsEnricher:
         self.html = html
 
     def get_company_site(self,name):
-        "bla bla"
+        "get the site of the current company"
         name = name.replace(" ","+")
         url = f"https://www.google.com/search?q={name}+site"
         self.driver.get(url)
@@ -95,16 +95,10 @@ class GoogleMapsEnricher:
 
 
 if __name__ == "__main__":
-    lista = [
-        # {"local": "santo amaro","keyword": "mercado"},
-        # {"local": "santana","keyword": "hospital"},
-        # {"local": "osasco", "keyword": "restaurante"},
-        # {"local": "copacabana","keyword": "pizzaria"},
-        {"local": "santana","keyword":"hospital"}
-        ]
-    for dic in lista:
-        local = dic.get("local")
-        keyword = dic.get("keyword")
+    df = pd.read_csv("exemplo.csv",encoding="utf-8")
+    for c in range(len(df)):
+        local = df.loc[c,["localization"]][0]
+        keyword = df.loc[c,["keyword"]][0]
         print(f"scrapando.. {local}-{keyword}")
         c1 = GoogleMapsEnricher(local,keyword)
         c1.get_html_text()
